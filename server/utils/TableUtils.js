@@ -4,23 +4,22 @@ const db = require('../config/dbconnection');
 class TableUtils {
     constructor(userId) {
         this.userId = userId;
-
     }
 
     tableExists(tableName) {
-        let query = "SELECT * FROM table_definition WHERE name = '" + tableName + "';";
-        db.query(query, (err, result, next) => {
+        let query = "SELECT * FROM information_schema.TABLES WHERE TABLE_NAME = '" + tableName + "';";
+        return db.query(query, (err, result) => {
             if(err) {
                 return false;
             } else {
-                return result.length > 0;
+                return (result.length > 0);
             }
         });
     }
 
     fieldExists(tableName, field) {
         let query = "SELECT * FROM field_definition WHERE table = '" + this.getTableIdReference(tableName) + "' AND name = '" + field + "';";
-        db.query(query, (err, result, next) => {
+        db.query(query, (err, result) => {
             if(err) {
                 return false;
             } else {

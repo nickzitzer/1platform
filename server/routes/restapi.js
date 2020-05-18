@@ -1,11 +1,13 @@
 const express = require('express');
 const restapi = express.Router();
 
-const con = require('../config/dbconnection');
-const TableUtils = require('../utils/TableUtils')
+const { v4: uuidv4 } = require('uuid');
+
+const db = require('../config/dbconnection');
+const TableUtils = require('../utils/TableUtils');
 
 /* GET individual record from table */
-restapi.get('/:table/:id', function(req, res, next) {
+restapi.get('/:table/:id', function(req, res) {
     let table = req.params.table;
     let id = req.params.id;
 
@@ -13,36 +15,35 @@ restapi.get('/:table/:id', function(req, res, next) {
     if(!TableUtils.tableExists(table)) {
         res.status(500).send({err: "Record not found. Invalid table name.", table: table});
     } else {
-        con.query('SELECT * FROM ' + table + ' WHERE id=' + id, (err, result) => {
+        db.query('SELECT * FROM ' + table + ' WHERE id=' + id, (err, result) => {
             if(err) {
-                res.status(500).send(err);
+                res.status(500).json({err});
             } else {
-                res.send(result);
+                res.json({result});
             }
         });
     }
 });
 
 /* GET list of records from table */
-restapi.get('/:table', function(req, res, next) {
+restapi.get('/:table', function(req, res) {
     let table = req.params.table;
-
     // Validate Actual Table
     if(!TableUtils.tableExists(table)) {
         res.status(500).send({err: "List not found. Invalid table name.", table: table});
     } else {
-        con.query('SELECT * FROM ' + table, (err, result) => {
+        db.query('SELECT * FROM ' + table, (err, result) => {
             if(err) {
-                res.status(500).send(err);
+                res.status(500).json({err});
             } else {
-                res.send(result);
+                res.json({result});
             }
         });
     }
 });
 
 /* INSERT record */
-restapi.post('/:table', function(req, res, next) {
+restapi.post('/:table', function(req, res) {
     let table = req.params.table;
 
     console.log('Post received for table ' + table);
@@ -51,12 +52,12 @@ restapi.post('/:table', function(req, res, next) {
     if(!TableUtils.tableExists(table)) {
         res.status(500).send({err: "Record not inserted. Invalid table name.", table: table});
     } else {
-
+        /* TODO: Generate Insert SQL Statement*/
     }
 });
 
-/* Replace record */
-restapi.put('/:table/:id', function(req, res, next) {
+/* REPLACE record */
+restapi.put('/:table/:id', function(req, res) {
     let table = req.params.table;
     let id = req.params.id;
 
@@ -64,12 +65,12 @@ restapi.put('/:table/:id', function(req, res, next) {
     if(!TableUtils.tableExists(table)) {
         res.status(500).send({err: "Record not inserted. Invalid table name.", table: table});
     } else {
-
+        /* TODO: Generate Update SQL Statement*/
     }
 });
 
 /* UPDATE record */
-restapi.patch('/:table/:id', function(req, res, next) {
+restapi.patch('/:table/:id', function(req, res) {
     let table = req.params.table;
     let id = req.params.id;
 
@@ -77,12 +78,12 @@ restapi.patch('/:table/:id', function(req, res, next) {
     if(!TableUtils.tableExists(table)) {
         res.status(500).send({err: "Record not inserted. Invalid table name.", table: table});
     } else {
-
+        /* TODO: Generate Update SQL Statement*/
     }
 });
 
 /* DELETE RECORD */
-restapi.delete('/:table/:id', function(req, res, next) {
+restapi.delete('/:table/:id', function(req, res) {
     let table = req.params.table;
     let id = req.params.id;
 
@@ -90,7 +91,13 @@ restapi.delete('/:table/:id', function(req, res, next) {
     if(!TableUtils.tableExists(table)) {
         res.status(500).send({err: "Record not inserted. Invalid table name.", table: table});
     } else {
-
+        db.query('DELETE FROM ' + table + ' WHERE id=' + id, (err, result) => {
+            if(err) {
+                res.status(500).json({err});
+            } else {
+                res.json({result});
+            }
+        });
     }
 });
 
