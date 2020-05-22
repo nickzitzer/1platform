@@ -17,9 +17,9 @@ restapi.get('/:table/:id', function(req, res) {
     } else {
         db.query('SELECT * FROM ' + table + ' WHERE id=' + id, (err, result) => {
             if(err) {
-                res.status(500).json({err});
+                res.status(500).json(err);
             } else {
-                res.json({result});
+                res.json(result);
             }
         });
     }
@@ -28,15 +28,19 @@ restapi.get('/:table/:id', function(req, res) {
 /* GET list of records from table */
 restapi.get('/:table', function(req, res) {
     let table = req.params.table;
+    console.log('Table: ' + table);
     // Validate Actual Table
     if(!TableUtils.tableExists(table)) {
+        console.log('Table doesnt exist');
         res.status(500).send({err: "List not found. Invalid table name.", table: table});
     } else {
+        console.log('Table exists');
+
         db.query('SELECT * FROM ' + table, (err, result) => {
             if(err) {
-                res.status(500).json({err});
+                res.status(500).json(err);
             } else {
-                res.json({result});
+                res.status(200).json(result);
             }
         });
     }
