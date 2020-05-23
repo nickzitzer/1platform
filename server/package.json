@@ -7,15 +7,17 @@
   },
   "dependencies": {
     "cookie-parser": "~1.4.4",
+    "cors": "^2.8.5",
     "debug": "~2.6.9",
     "express": "~4.16.1",
+    "express-session": "^1.17.1",
+    "imap": "^0.8.19",
+    "mongodb": "^3.5.7",
+    "mongoose": "^5.9.15",
     "morgan": "~1.9.1",
     "mysql": "^2.18.1",
     "node-sass": "^4.12.0",
-    "imap": "^0.8.19",
     "nodemailer": "^6.4.6",
-    "cors": "^2.8.5",
-    "express-session": "^1.17.1",
     "uuid": "^8.0.0"
   },
   "devDependencies": {}

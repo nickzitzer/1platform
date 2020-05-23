@@ -3,7 +3,7 @@ const restapi = express.Router();
 
 const { v4: uuidv4 } = require('uuid');
 
-const db = require('../config/dbconnection');
+const db = require('../config/sql.db.config');
 const TableUtils = require('../utils/TableUtils');
 
 /* GET individual record from table */

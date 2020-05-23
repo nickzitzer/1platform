@@ -1,5 +1,5 @@
 const mailTransport = require('../config/nodemailer');
-const db = require('../config/dbconnection');
+const db = require('../config/sql.db.config');
 const LogUtils = require('LogUtils');
 
 class EmailUtils {

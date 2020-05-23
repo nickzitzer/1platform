@@ -1,4 +1,4 @@
-const db = require('../config/dbconnection');
+const db = require('../config/sql.db.config');
 
 class LogUtils {
     constructor(userId) {

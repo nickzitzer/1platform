@@ -5,6 +5,7 @@ import { makeStyles } from '@material-ui/styles';
 import { Divider, Drawer } from '@material-ui/core';
 import HomeIcon from '@material-ui/icons/Home';
 import IncidentIcon from '@material-ui/icons/Warning';
+import AgentIcon from '@material-ui/icons/HeadsetMic'
 import CatalogIcon from '@material-ui/icons/ShoppingCart';
 import ChangeIcon from '@material-ui/icons/DeviceHub';
 import KnowledgeIcon from '@material-ui/icons/MenuBook';
@@ -52,6 +53,11 @@ const Sidebar = props => {
       title: 'Catalog',
       href: '/products',
       icon: <CatalogIcon />
+    },
+    {
+      title: 'Agent',
+      href: '/users',
+      icon: <AgentIcon />
     },
     {
       title: 'Incident',

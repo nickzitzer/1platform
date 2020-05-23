@@ -1,5 +1,5 @@
 const mysql = require('mysql');
-const db = require('../config/dbconnection');
+const db = require('../config/sql.db.config');
 
 class TableUtils {
     constructor(userId) {
