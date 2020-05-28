@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/styles';
-import { Divider, Drawer } from '@material-ui/core';
+import {Divider, Drawer, List, ListItem} from '@material-ui/core';
 import HomeIcon from '@material-ui/icons/Home';
 import IncidentIcon from '@material-ui/icons/Warning';
 import AgentIcon from '@material-ui/icons/HeadsetMic'
@@ -12,12 +12,22 @@ import KnowledgeIcon from '@material-ui/icons/MenuBook';
 import CMDBIcon from '@material-ui/icons/Extension';
 import SettingsIcon from '@material-ui/icons/Settings';
 import ProblemIcon from '@material-ui/icons/Error';
+import BuilderIcon from '@material-ui/icons/Code';
+import * as Components from '../../../../components';
 
 import { Profile, SidebarNav } from './components';
 
 const useStyles = makeStyles(theme => ({
+  moduleDrawer: {
+    width: 40,
+    [theme.breakpoints.up('lg')]: {
+      marginTop: 64,
+      height: 'calc(100% - 64px)'
+    }
+  },
   drawer: {
-    width: 240,
+    marginLeft: 40,
+    width: 200,
     [theme.breakpoints.up('lg')]: {
       marginTop: 64,
       height: 'calc(100% - 64px)'
@@ -38,60 +48,104 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
+
+
 const Sidebar = props => {
   const { open, variant, onClose, className, ...rest } = props;
 
   const classes = useStyles();
 
+  const [modules, setModules] = useState([]);
+
+  fetch('/api/rest/system_module').then(res => res.json())
+    .then(
+      (result) => {
+        setModules(result);
+      }
+    );
+
   const pages = [
     {
       title: 'Home',
-      href: '/dashboard',
+      href: '/Dashboard',
       icon: <HomeIcon />
     },
     {
       title: 'Catalog',
-      href: '/products',
+      href: '/ProductList',
       icon: <CatalogIcon />
     },
     {
       title: 'Agent',
-      href: '/users',
+      href: '/UserList',
       icon: <AgentIcon />
     },
     {
       title: 'Incident',
-      href: '/users',
+      href: '/UserList',
       icon: <IncidentIcon />
     },
     {
       title: 'Problem',
-      href: '/sign-in',
+      href: '/SignIn',
       icon: <ProblemIcon />
     },
     {
       title: 'Change',
-      href: '/typography',
+      href: '/Typography',
       icon: <ChangeIcon />
     },
     {
       title: 'Knowledge',
-      href: '/icons',
+      href: '/Icons',
       icon: <KnowledgeIcon />
     },
     {
       title: 'CMDB',
-      href: '/account',
+      href: '/Account',
       icon: <CMDBIcon />
     },
     {
+      title: 'Component Builder',
+      href: '/ComponentBuilder',
+      icon: <BuilderIcon />
+    },
+    {
       title: 'Settings',
-      href: '/settings',
+      href: '/Settings',
       icon: <SettingsIcon />
     }
   ];
 
   return (
+    <span>
+    <Drawer
+      anchor="left"
+      classes={{ paper: classes.moduleDrawer }}
+      onClose={onClose}
+      open={open}
+      variant={variant}
+    >
+      <div
+        {...rest}
+        className={clsx(classes.root, className)}
+      >
+         <List
+           {...rest}
+           className={clsx(classes.root, className)}
+         >
+          {modules.map(module => (
+            <ListItem
+              className={classes.item}
+              disableGutters
+              key={module.name}
+            >
+              <Components.MaterialIcon icon={module.icon}/>
+            </ListItem>
+          ))}
+        </List>
+      </div>
+    </Drawer>
     <Drawer
       anchor="left"
       classes={{ paper: classes.drawer }}
@@ -111,6 +165,7 @@ const Sidebar = props => {
         />
       </div>
     </Drawer>
+      </span>
   );
 };
 

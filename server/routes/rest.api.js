@@ -1,5 +1,5 @@
 const express = require('express');
-const restapi = express.Router();
+const restAPI = express.Router();
 
 const { v4: uuidv4 } = require('uuid');
 
@@ -7,7 +7,7 @@ const db = require('../config/sql.db.config');
 const TableUtils = require('../utils/TableUtils');
 
 /* GET individual record from table */
-restapi.get('/:table/:id', function(req, res) {
+restAPI.get('/:table/:id', function(req, res) {
     let table = req.params.table;
     let id = req.params.id;
 
@@ -26,7 +26,7 @@ restapi.get('/:table/:id', function(req, res) {
 });
 
 /* GET list of records from table */
-restapi.get('/:table', function(req, res) {
+restAPI.get('/:table', function(req, res) {
     let table = req.params.table;
     console.log('Table: ' + table);
     // Validate Actual Table
@@ -47,7 +47,7 @@ restapi.get('/:table', function(req, res) {
 });
 
 /* INSERT record */
-restapi.post('/:table', function(req, res) {
+restAPI.post('/:table', function(req, res) {
     let table = req.params.table;
 
     console.log('Post received for table ' + table);
@@ -61,7 +61,7 @@ restapi.post('/:table', function(req, res) {
 });
 
 /* REPLACE record */
-restapi.put('/:table/:id', function(req, res) {
+restAPI.put('/:table/:id', function(req, res) {
     let table = req.params.table;
     let id = req.params.id;
 
@@ -74,7 +74,7 @@ restapi.put('/:table/:id', function(req, res) {
 });
 
 /* UPDATE record */
-restapi.patch('/:table/:id', function(req, res) {
+restAPI.patch('/:table/:id', function(req, res) {
     let table = req.params.table;
     let id = req.params.id;
 
@@ -87,7 +87,7 @@ restapi.patch('/:table/:id', function(req, res) {
 });
 
 /* DELETE RECORD */
-restapi.delete('/:table/:id', function(req, res) {
+restAPI.delete('/:table/:id', function(req, res) {
     let table = req.params.table;
     let id = req.params.id;
 
@@ -105,4 +105,4 @@ restapi.delete('/:table/:id', function(req, res) {
     }
 });
 
-module.exports = restapi;
+module.exports = restAPI;
